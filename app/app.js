@@ -4,26 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-var indexRouter = require('./routes/index');
 
 // Express-----------------------------------------------------------------------------------
 var app = express();
 
 // dbConfig-----------------------------------------------------------------------------------
+var mongoose = require('mongoose');
 const dbConfig = require('./config/database.config.js');
 mongoose.connect(dbConfig.url, { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() => console.log('connection successful'))
   .catch((err) => console.error(err));
-
-
-// Configuring Passport-----------------------------------------------------------------------
-var passport = require('passport');
-var expressSession = require('express-session');
-app.use(expressSession({secret: 'mySecretKey'}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Cors---------------------------------------------------------------------------------------
 app.use(cors());
@@ -38,7 +29,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+// Configuring Passport-----------------------------------------------------------------------
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({ secret: 'DisLex' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
+
+// Initialize Passport------------------------------------------------------------------------
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+// Routes-------------------------------------------------------------------------------------
+var routes = require('./routes/index')(passport);
+app.use('/', routes);
 
 // require('./routes/films')(app);
 // require('./routes/books')(app);
