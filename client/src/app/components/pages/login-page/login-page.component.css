@@ -1,0 +1,24 @@
+.close {
+  outline: none;
+}
+.error {
+  color: red;
+  padding: 0;
+  text-align: center;
+}
+
+.error-msg {
+  color: red;
+  padding: 0;
+  text-align: start;
+}
+
+.login {
+  margin-top: 100px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
