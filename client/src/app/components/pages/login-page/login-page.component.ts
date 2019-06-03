@@ -16,33 +16,50 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit {
-  loginForm: FormGroup;
-  returnUrl: string;
-  isGetting = false;
-  error: string = null;
+  loginData = { username: '', password: '' };
+  message = '';
+  data: any;
+
+  // loginForm: FormGroup;
+  // returnUrl: string;
+  // isGetting = false;
+  // error: string = null;
 
   constructor(
-    private _authorizationService: AuthorizationService,
-    private _router: Router,
-    private _route: ActivatedRoute,
-    private _formBuilder: FormBuilder) {}
+    private http: HttpClient,
+    private router: Router
+    // private _authorizationService: AuthorizationService,
+    // private _router: Router,
+    // private _route: ActivatedRoute,
+    // private _formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
-    this.initForm();
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+    // this.initForm();
+    // this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  initForm() {
-    this.loginForm = this._formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', [Validators.required]]
+  login() {
+    this.http.post('/api/signin', this.loginData).subscribe(resp => {
+      this.data = resp;
+      localStorage.setItem('jwtToken', this.data.token);
+      this.router.navigate(['books']);
+    }, err => {
+      this.message = err.error.msg;
     });
   }
 
-  signIn() {
-    this.isGetting = true;
-    this._authorizationService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(() => {
-      this._router.navigate([this.returnUrl]);
-    }).add(() => this.isGetting = false);
-  }
+  // initForm() {
+  //   this.loginForm = this._formBuilder.group({
+  //     email: ['', Validators.required],
+  //     password: ['', [Validators.required]]
+  //   });
+  // }
+
+  // signIn() {
+  //   this.isGetting = true;
+  //   this._authorizationService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(() => {
+  //     this._router.navigate([this.returnUrl]);
+  //   }).add(() => this.isGetting = false);
+  // }
 }

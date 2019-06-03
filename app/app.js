@@ -1,65 +1,38 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cors = require('cors');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var config = require('./config/database');
 
-// Express-----------------------------------------------------------------------------------
+// Express, Api------------------------------------------------------------
+var api = require('./routes/api');
 var app = express();
 
-// dbConfig-----------------------------------------------------------------------------------
-var mongoose = require('mongoose');
-const dbConfig = require('./config/database.config.js');
-mongoose.connect(dbConfig.url, { promiseLibrary: require('bluebird'), useNewUrlParser: true })
-  .then(() => console.log('connection successful'))
+// Connection to MongoDB---------------------------------------------------
+mongoose.Promise = require('bluebird');
+mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
+  .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
-// Cors---------------------------------------------------------------------------------------
-app.use(cors());
-
-// View engine setup--------------------------------------------------------------------------
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// Initialize pasport------------------------------------------------------
+app.use(passport.initialize());
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Configuring Passport-----------------------------------------------------------------------
-var passport = require('passport');
-var expressSession = require('express-session');
-app.use(expressSession({ secret: 'DisLex' }));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Using the flash middleware provided by connect-flash to store messages in session
-// and displaying in templates
-var flash = require('connect-flash');
-app.use(flash());
-
-// Initialize Passport------------------------------------------------------------------------
-var initPassport = require('./passport/init');
-initPassport(passport);
-
-// Routes-------------------------------------------------------------------------------------
-var routes = require('./routes/index')(passport);
-app.use('/', routes);
-
-// require('./routes/films')(app);
-// require('./routes/books')(app);
-
-// only made for logging and
-// bodyParser, parses the request body to be a readable json format
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ 'extended': 'false' }));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use('/', express.static(path.join(__dirname, 'dist')));
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler
