@@ -14,6 +14,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res) {
+  console.log('in in signup')
   if (!req.body.username || !req.body.password) {
     res.json({ success: false, msg: 'Please pass username and password.' });
   } else {

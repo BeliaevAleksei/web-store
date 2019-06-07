@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 
 import { Book } from '../types/book';
 import { Film } from '../types/film';
+import { User } from '../types/user';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,29 @@ export class ApiService {
     const url = `${this._apiUrl}/api/film/self`;
     return this._http.get<Film>(url).pipe(
       catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  login(user: User): Observable<any> {
+    const url = `${this._apiUrl}/api/signin`;
+
+    return this._http.post<any>(url, user).pipe(
+      map((response: any) => response),
+      catchError((error: Response) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  signup(user: User): Observable<any> {
+    const url = `${this._apiUrl}/api/signup`;
+    console.log(url)
+    console.log(user)
+    return this._http.post<any>(url, user).pipe(
+      map((response: any) => response),
+      catchError((error: Response) => {
         return throwError(error);
       })
     );

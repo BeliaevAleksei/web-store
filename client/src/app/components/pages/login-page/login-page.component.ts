@@ -26,6 +26,7 @@ export class LoginPageComponent implements OnInit {
   // error: string = null;
 
   constructor(
+    private _authorizationService: AuthorizationService,
     private http: HttpClient,
     private router: Router
     // private _authorizationService: AuthorizationService,
@@ -40,13 +41,12 @@ export class LoginPageComponent implements OnInit {
   }
 
   login() {
-    this.http.post('/api/signin', this.loginData).subscribe(resp => {
-      this.data = resp;
-      localStorage.setItem('jwtToken', this.data.token);
-      this.router.navigate(['books']);
-    }, err => {
-      this.message = err.error.msg;
-    });
+    this._authorizationService.login(this.loginData.username, this.loginData.password)
+      .subscribe((res) => {
+        this.router.navigate(['books']);
+      }, (error) => {
+
+      });
   }
 
   // initForm() {
