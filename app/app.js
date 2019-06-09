@@ -13,7 +13,7 @@ var app = express();
 
 // Connection to MongoDB---------------------------------------------------
 mongoose.Promise = require('bluebird');
-mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
+mongoose.connect(config.database, { promiseLibrary: require('bluebird'), useNewUrlParser: true, useCreateIndex: true })
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
@@ -42,7 +42,10 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    message: err.message,
+    error: err
+  });
 });
 
 module.exports = app;
