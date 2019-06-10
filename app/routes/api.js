@@ -98,6 +98,9 @@ router.put("/book", passport.authenticate('jwt', { session: false }), function (
 router.get('/book', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
+    console.log(req)
+    console.log(req.user)
+    console.log(req.user.username)
     Book.find({ publisher: req.user.username }, function (err, books) {
       if (err) return next(err);
       res.json(books);

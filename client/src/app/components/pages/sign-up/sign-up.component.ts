@@ -20,7 +20,6 @@ export class SignUpComponent implements OnInit {
   signup() {
     this._authorizationService.signup(this.signupData.username, this.signupData.password)
       .subscribe(resp => {
-        console.log(resp);
         this.router.navigate(['login']);
       }, (err) => {
         this.message = err.error.msg;

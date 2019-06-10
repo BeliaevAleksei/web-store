@@ -27,7 +27,6 @@ export class BookModalComponent implements OnInit {
     public dialogRef: MatDialogRef<BooksComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     dialogRef.disableClose = false;
-    console.log(data.book)
     this.book = data.book;
     this.displayState = data.action;
     this.initializeForm();
@@ -47,9 +46,7 @@ export class BookModalComponent implements OnInit {
 
   save() {
     const book = this.getBookFromBookForm();
-    console.log(book)
     this._bookService.updateBook(book).subscribe((res) => {
-      console.log(res)
       this.closeModalWidow(this.data);
     }, (error) => {
       console.error(error);
@@ -62,9 +59,7 @@ export class BookModalComponent implements OnInit {
 
   add() {
     const book = this.getBookFromBookForm();
-    console.log(book)
     this._bookService.addBook(book).subscribe((res) => {
-      console.log(res)
       this.closeModalWidow(this.data);
     }, (error) => {
       console.error(error);
@@ -73,7 +68,6 @@ export class BookModalComponent implements OnInit {
 
   delete() {
     this._bookService.deleteBook(this.data.book._id).subscribe((res) => {
-      console.log(res)
       this.closeModalWidow(this.data);
     }, (error) => {
       console.error(error);

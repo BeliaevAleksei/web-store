@@ -32,7 +32,6 @@ export class BooksComponent implements OnInit {
   getBooks() {
     this.bookService.getBooks().subscribe(data => {
       this.books = data;
-      console.log(this.books);
     }, err => {
       if (err.status === 401) {
         this.router.navigate(['login']);
@@ -48,7 +47,6 @@ export class BooksComponent implements OnInit {
   create() {
     this.bookAction = ObjectState.Add;
     this.selectedBook = new Book();
-    console.log(this.selectedBook)
     this.openModalWidow();
   }
 

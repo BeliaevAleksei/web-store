@@ -46,7 +46,6 @@ export class ApiService {
   }
 
   addBook(book: Book): Observable<Book> {
-    console.log(book)
     const url = `${this._apiUrl}/api/book`;
 
     return this._http.post<Book>(url, book).pipe(
@@ -58,7 +57,6 @@ export class ApiService {
   }
 
   updateBook(book: Book): Observable<Book> {
-    console.log(book)
     const url = `${this._apiUrl}/api/book`;
 
     return this._http.put<Book>(url, book).pipe(
@@ -103,8 +101,6 @@ export class ApiService {
 
   signup(user: User): Observable<any> {
     const url = `${this._apiUrl}/api/signup`;
-    console.log(url)
-    console.log(user)
     return this._http.post<any>(url, user).pipe(
       map((response: any) => response),
       catchError((error: Response) => {

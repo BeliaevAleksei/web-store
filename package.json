@@ -4,9 +4,10 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "npm install && concurrently \"node app/bin/www\" \"cd client && ng serve\"",
+    "start": "concurrently \"node app/bin/www\" \"cd client && ng serve\"",
     "server": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
-    "postinstall": "cd client && npm install && ng build && mv dist/* ."
+    "preinstall": "npm install -g @angular/cli@7.2.1",
+    "postinstall": "cd client && npm install"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
