@@ -36,7 +36,6 @@ router.post('/signin', function (req, res) {
     username: req.body.username
   }, function (err, user) {
     if (err) throw err;
-
     if (!user) {
       res.status(401).send({ success: false, msg: 'Authentication failed. User not found.' });
     } else {
@@ -98,9 +97,6 @@ router.put("/book", passport.authenticate('jwt', { session: false }), function (
 router.get('/book', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    console.log(req)
-    console.log(req.user)
-    console.log(req.user.username)
     Book.find({ publisher: req.user.username }, function (err, books) {
       if (err) return next(err);
       res.json(books);

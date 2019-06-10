@@ -41,17 +41,11 @@ app.use(function (req, res, next) {
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('./client/dist'));
 }
-// app.get('*', (request, response) => {
-// 	response.sendFile(path.join(__dirname, './dist', 'index.html'));
-// });
 
 // Send all requests to index.html
 app.get('*', function(req, res) {
   response.sendFile(path.join(__dirname, './dist', 'index.html'));
 });
-
-// Serve static files
-// app.use(express.static(__dirname + '/dist/client'));
 
 // error handler
 app.use(function (err, req, res, next) {
