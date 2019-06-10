@@ -5,11 +5,11 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var config = require('./config/database');
+var config = require('./app/config/database');
 var cors = require('cors');
 
 // Express, Api------------------------------------------------------------
-var api = require('./routes/api');
+var api = require('./app/routes/api');
 var app = express();
 
 app.use(cors())
@@ -38,12 +38,12 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('./client/dist'));
-}
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, './client/dist', 'index.html'));
-});
+// if (process.env.NODE_ENV === 'production') {
+// 	app.use(express.static('./client/dist'));
+// }
+// app.get('*', (request, response) => {
+// 	response.sendFile(path.join(__dirname, './client/dist', 'index.html'));
+// });
 
 // error handler
 app.use(function (err, req, res, next) {
