@@ -34,9 +34,55 @@ export class ApiService {
     this._options = { headers: headers };
   }
 
-  // films
+  // Books----------------------------------------------------------------------------------------------------------------------
+  getBooks(): Observable<Book> {
+    const url = `${this._apiUrl}/api/book`;
+
+    return this._http.get<Book>(url).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  addBook(book: Book): Observable<Book> {
+    console.log(book)
+    const url = `${this._apiUrl}/api/book`;
+
+    return this._http.post<Book>(url, book).pipe(
+      map((response: any) => response),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  updateBook(book: Book): Observable<Book> {
+    console.log(book)
+    const url = `${this._apiUrl}/api/book`;
+
+    return this._http.put<Book>(url, book).pipe(
+      map((response: any) => response),
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  deleteBook(bookId: string) {
+    const url = `${this._apiUrl}/api/book/${bookId}`;
+
+    return this._http.delete<any>(url).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  // Films-----------------------------------------------------------------------------------------------------------------------
   getSelfFilms(): Observable<Film> {
     const url = `${this._apiUrl}/api/film/self`;
+
     return this._http.get<Film>(url).pipe(
       catchError((error) => {
         return throwError(error);

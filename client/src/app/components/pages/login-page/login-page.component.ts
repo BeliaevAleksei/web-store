@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-
 import { AuthorizationService } from 'src/app/services/authorization.service';
 // import { LocaleService } from 'src/app/services/locale.service';
 // import { Patterns } from 'src/app/constants/patterns';
@@ -27,7 +23,6 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private _authorizationService: AuthorizationService,
-    private http: HttpClient,
     private router: Router
     // private _authorizationService: AuthorizationService,
     // private _router: Router,
@@ -45,7 +40,7 @@ export class LoginPageComponent implements OnInit {
       .subscribe((res) => {
         this.router.navigate(['books']);
       }, (error) => {
-
+        this.message = error.error.msg;
       });
   }
 

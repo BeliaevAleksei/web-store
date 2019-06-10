@@ -14,7 +14,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/signup', function (req, res) {
-  console.log('in in signup')
   if (!req.body.username || !req.body.password) {
     res.json({ success: false, msg: 'Please pass username and password.' });
   } else {
@@ -59,12 +58,12 @@ router.post('/signin', function (req, res) {
 router.post('/book', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    console.log(req.body);
     var newBook = new Book({
-      isbn: req.body.isbn,
+      description: req.body.description,
       title: req.body.title,
       author: req.body.author,
-      publisher: req.body.publisher
+      price: req.body.price,
+      publisher: req.user.username
     });
 
     newBook.save(function (err) {
@@ -78,6 +77,24 @@ router.post('/book', passport.authenticate('jwt', { session: false }), function 
   }
 });
 
+router.put("/book", passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+
+  if (token) {
+    Book.findOneAndUpdate({ _id: req.body.id }, {
+      description: req.body.description,
+      title: req.body.title,
+      author: req.body.author,
+      price: req.body.price,
+      publisher: req.user.username
+    })
+      .then(book => res.json(book))
+      .catch(err => console.log(err));
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
 router.get('/book', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
@@ -85,6 +102,17 @@ router.get('/book', passport.authenticate('jwt', { session: false }), function (
       if (err) return next(err);
       res.json(books);
     });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+router.delete('/book/:bookId', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Book.findOneAndRemove({ _id: req.params.bookId })
+      .then(book => res.json(book))
+      .catch(err => console.log(err));
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }

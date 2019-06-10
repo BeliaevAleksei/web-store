@@ -1,0 +1,104 @@
+<div class="row p-0 m-0" [formGroup]="bookForm">
+  <div class="col w-100">
+    <div class="row w-100 p-0 m-0 text-center center header">
+      <div class="col-auto text-center p-0 m-0 icon-width">
+        <i class="material-icons" *ngIf="displayState === displayAdding">
+          assignment
+        </i>
+
+        <i class="material-icons" *ngIf="displayState !== displayAdding">
+          edit
+        </i>
+      </div>
+      <div class="col-auto h-100 p-0 m-0">
+        <div class="row w-100 h-100 p-0 m-0 align-items-center justify-content-between">
+          <div class="col-auto w-100 p-0 m-0" *ngIf="displayState === displayAdding">
+            <h1 mat-dialog-title class="m-0">
+              Adding Book
+            </h1>
+          </div>
+          <div class="col-auto w-100 p-0 m-0" *ngIf="displayState === displayEditing">
+            <h1 mat-dialog-title class="m-0">
+              Editing Book
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row w-100 p-0 m-0 text-center center">
+      <div class="col-6 p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label class="label">Title</mat-label>
+          <input type="text" matInput formControlName="title" autocomplete="off" placeholder="Enter title" required>
+          <mat-error *ngIf="bookForm.controls['title'].touched
+                && bookForm.controls['title'].invalid">
+            <strong>This field is required and cannot be null</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-6 p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label class="label">Author</mat-label>
+          <input type="text" matInput formControlName="author" autocomplete="off" placeholder="Enter author" required>
+          <mat-error *ngIf="bookForm.controls['author'].touched
+                  && bookForm.controls['author'].invalid">
+            <strong>This field is required and cannot be null</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6 p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label class="label">Price</mat-label>
+          <input type="number" matInput step="any" formControlName="price" autocomplete="off" placeholder="Enter price"
+            required>
+          <mat-error *ngIf="bookForm.controls['price'].touched && bookForm.controls['price'].invalid">
+            <strong>This field is required and cannot be null</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-100"></div>
+      <div class="row w-100 p-0 m-0 text-center center">
+        <div class="col-12 p-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label class="label">Description</mat-label>
+            <textarea type="text" rows="6" matInput class="form-control scroll-block black"
+              formControlName="description" placeholder="Enter description" required></textarea>
+            <mat-error *ngIf="bookForm.controls['description'].invalid && bookForm.controls['description'].touched">
+              <strong>This field is required and cannot be null</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="row w-100 p-0 m-0 text-center justify-content-end">
+      <div class="col-auto m-0 p-2" *ngIf="displayState == displayEditing">
+        <button type="button" class="btn btn-outline-success left-btn align-items-center"
+          [disabled]="bookForm.invalid || isRequesting" (click)="save()">
+          <span *ngIf="isRequesting" class="spinner-border spinner-border-sm"></span>
+          Save
+        </button>
+        <button type="button" class="btn btn-outline-danger left-btn align-items-center"
+          [disabled]="isDeleting" (click)="delete()">
+          <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
+          Delete
+        </button>
+      </div>
+
+      <div class="col-auto m-0 p-2" *ngIf="displayState == displayAdding">
+        <button type="button" class="btn btn-outline-success left-btn align-items-center"
+          [disabled]="bookForm.invalid || isRequesting" (click)="add()">
+          <span *ngIf="isRequesting" class="spinner-border spinner-border-sm"></span>
+          Create
+        </button>
+      </div>
+
+      <div class="col-auto m-0 p-2">
+        <button type="button" class="btn btn-outline-secondary left-btn align-items-center" [mat-dialog-close]="">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

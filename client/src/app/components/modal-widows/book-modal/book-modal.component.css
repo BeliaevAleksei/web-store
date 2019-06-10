@@ -1,0 +1,56 @@
+.header {
+  margin-bottom: 15px!important;
+  height: 67px;
+}
+
+.bottom {
+  height: 55px;
+}
+  
+.buttons {
+  padding-right: 15px!important;
+}
+  
+.left-btn {
+  margin-right: 5px;
+}
+  
+.material-icons {
+  font-size: 60px; 
+}
+
+.button-height {
+  height: 38px;
+}
+
+.with-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+  max-height: calc(90vh - 185px);
+}
+
+mat-datepicker-toggle {
+  right: 4px;
+}
+
+.border {
+  border: 1px solid black;
+  border-radius: 0.2rem;
+}
+
+.red {
+  color: red!important;
+}
+
+.green {
+  color: green!important;
+}
+
+.black {
+  color: rgba(0,0,0,.87)!important;
+}
+
+.icon-width {
+  width: 100px!important;
+}

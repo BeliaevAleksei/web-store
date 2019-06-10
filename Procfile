@@ -1,0 +1,1 @@
+web: concurrently "concurrently \"node ./app/bin/www\" \"cd ./client && ng serve\""

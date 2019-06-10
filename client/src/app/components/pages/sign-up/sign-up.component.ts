@@ -23,7 +23,7 @@ export class SignUpComponent implements OnInit {
         console.log(resp);
         this.router.navigate(['login']);
       }, (err) => {
-        // this.message = err.error.msg;
+        this.message = err.error.msg;
       });
   }
 }
