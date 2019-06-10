@@ -4,9 +4,8 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"node app/bin/www\" \"cd client && ng serve\"",
+    "start": "npm install && concurrently \"node app/bin/www\" \"cd client && ng serve\"",
     "server": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
-    "preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript",
     "postinstall": "cd client && npm install && ng build && mv dist/* ."
   },
   "dependencies": {
