@@ -38,12 +38,12 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-// if (process.env.NODE_ENV === 'production') {
-// 	app.use(express.static('./client/dist'));
-// }
-// app.get('*', (request, response) => {
-// 	response.sendFile(path.join(__dirname, './client/dist', 'index.html'));
-// });
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('./client/dist'));
+}
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, './client/dist', 'index.html'));
+});
 
 // error handler
 app.use(function (err, req, res, next) {
