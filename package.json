@@ -6,7 +6,6 @@
   "scripts": {
     "start": "concurrently \"node app/bin/www\" \"cd client && ng serve\"",
     "server": "concurrently \"nodemon server.js\" \"cd client && npm start\""
-    // "heroku-postbuild": "\"cd client && npm install && ng build\""
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
