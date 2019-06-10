@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // Send all requests to index.html
 app.get('*', function(req, res) {
-  response.sendFile(path.join(__dirname, './dist/client', 'index.html'));
+  response.sendFile(path.join(__dirname, './dist', 'index.html'));
 });
 
 // Serve static files
